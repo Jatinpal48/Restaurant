@@ -10,11 +10,15 @@ dotenv.config({ path: "./config.env" });
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
-    methods: ["POST"],
+    origin: process.env.FRONTEND_URL, // single URL works fine
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // allow preflight
     credentials: true,
   })
 );
+
+// Optional: handle preflight requests manually (sometimes needed for Render)
+app.options("*", cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
